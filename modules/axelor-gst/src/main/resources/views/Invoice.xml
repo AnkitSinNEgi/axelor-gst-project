@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+  
+  <selection name="select-invoice-status">
+  	<option value="draft">Draft</option>
+  	<option value="validated">Validated</option>
+  	<option value="paid">Paid</option>
+  	<option value="cancelled">Cancelled</option>
+  </selection>
+  
+  <grid model="com.axelor.gst.app.Invoice" title="Invoices" name="invoice-grid">
+  	<field name="status"/>
+  	<field name="company"/>
+  	<field name="reference"/>
+  	<field name="invoiceDate"/>
+  	<field name="priority"/>
+  	<field name="party"/>
+  	<field name="partyContact"/>
+  	<field name="invoiceAddress"/>
+  	<field name="shippingAddress"/>
+  	<field name="useInvoiceAddressAsShipping"/>
+  	<field name="netAmount"/>
+  	<field name="netIgst" />
+  	<field name="netCgst" />
+  	<field name="netSgst" />
+  	<field name="grossAmount" />
+  	<field name="invoiceItem"/>
+  </grid>
+  
+  <form model="com.axelor.gst.app.Invoice" title="Invoices" name="invoice-form" onNew="action-invoice-group-on-new-from,action-invoice-group-for-change-amounts" 
+  			 onSave="action-invoice-method-set-net-amounts">
+  
+  	<toolbar>
+  		<button onClick="action-invoice-report-print-invoice" name="printInvoice" icon="fa-print"/>
+  	</toolbar>
+  	
+  	<panel sidebar="true">
+  		<button onClick="save,action-invoice-record-change-status-draft,save" name="dratftBtn" title="Return To Draft" icon="fa-retweet" 
+  				hideIf="status==&quot;draft&quot; || status==&quot;validated&quot; || status==&quot;paid&quot;"/>
+  		<button onClick="save,action-invoice-record-change-status-validated,action-invoice-method-set-reference" name="validateBtn" title="Validate" 
+  					icon="fa-paper-plane" hideIf="status==&quot;validated&quot; || status==&quot;paid&quot; || status==&quot;cancelled&quot;"/>
+  		<button onClick="save,action-invoice-record-change-status-paid,save" name="paidBtn" title="Paid" css="btn btn-success" icon="fa-check-square-o" 
+  						hideIf="status==&quot;paid&quot; || status==&quot;draft&quot; || status==&quot;cancelled&quot;"/>
+  		<button onClick="save,action-invoice-validate-on-cancel-alert,action-invoice-record-change-status-cancel,save" name="cancelBtn" title="Cancel" 
+  						icon="fa-times" css="btn btn-danger" hideIf="status==&quot;cancelled&quot;"/>
+  	</panel>
+  	
+  	<panel title="Invoice">
+  		<field name="status" readonly="true" widget="NavSelect" colSpan="8"/>
+  		<field name="company" onChange="action-invoice-group-for-change-amounts" required="true"/>
+  		<field name="reference"/>
+  		<field name="invoiceDate"/>
+  		<field name="priority"/>
+  		<field name="party" onChange="action-invoice-method-set-contact,action-invoice-group-for-change-amounts"/>
+  		<field name="partyContact" domain="self.party=:party" onChange="action-invoice-method-change-amounts-on-change,action-invoice-method-set-net-amounts"/>
+  		<field name="invoiceAddress" domain="self.party=:party" onChange="action-invoice-group-for-change-amounts"/>
+  		<field name="shippingAddress" domain="self.party=:party"/>
+  		<field name="useInvoiceAddressAsShipping" onChange="action-invoice-attr-check-value"/>
+  		<field name="netAmount" readonly="true"/>
+  		<field name="netIgst" readonly="true"/>
+  		<field name="netCgst" readonly="true"/>
+  		<field name="netSgst" readonly="true"/>
+  		<field name="grossAmount" readonly="true"/> 		
+  	</panel>
+  	<panel-related field="invoiceItem" onChange="action-invoice-method-set-net-amounts"/>
+  </form>
+  
+  <kanban columnBy="status" model="com.axelor.gst.app.Invoice" sequenceBy="priority" title="Invoices" name="invoice-kanban">
+  	<field name="company"/>
+  	<field name="party"/>
+  	<field name="invoiceDate"/>
+  	<field name="grossAmount"/>
+  	<field name="reference"/>
+  	<template>
+  		<![CDATA[
+  			<div style="text-align:center;">
+  				<h3>{{company.name}}</h3>
+  				Customer: {{party.name}}<br>
+  				Reference: {{reference}}<br>
+  				Invoice Date: {{invoiceDate}}<br>
+  				Total Amount: {{grossAmount}}
+  			</div>
+  		]]>
+  	</template>
+  </kanban>
+  
+  
+  
+  <action-method name="action-invoice-method-set-values-from-product">
+  	<call class="com.axelor.gst.app.controller.InvoiceController" method="setInvoiceItem"/>
+  </action-method>
+  
+  <action-attrs name="action-invoice-attr-check-null-values">
+  	<attribute name="readonly" for="invoiceItem" expr="true" if="invoiceAddress==null || company==null"/>
+  	<attribute name="readonly" for="invoiceItem" expr="false" if="invoiceAddress!=null &amp;&amp; company!=null"/>
+  </action-attrs>
+  
+  <action-attrs name="action-invoice-attr-set-default-value">
+  	<attribute name="value" for="invoiceDate" expr="eval:__datetime__"/>
+  	<attribute name="value" for="company" expr="eval:__user__.company"/>
+  </action-attrs>
+  
+  <action-attrs name="action-invoice-attr-check-value">
+  	<attribute name="hidden" for="shippingAddress" expr="eval:__this__.invoiceAddress" if="useInvoiceAddressAsShipping"/>
+  	<attribute name="value" for="shippingAddress" expr="eval:__this__.invoiceAddress" if="useInvoiceAddressAsShipping"/>
+  </action-attrs>
+  
+  <action-record name="action-invoice-record-change-status-draft" model="com.axelor.gst.app.Invoice">
+  	<field name="status" expr="draft"/>
+  </action-record>
+  
+  <action-record name="action-invoice-record-change-status-validated" model="com.axelor.gst.app.Invoice">
+  	<field name="status" expr="validated"/>
+  </action-record>
+  
+  <action-record name="action-invoice-record-change-status-paid" model="com.axelor.gst.app.Invoice">
+  	<field name="status" expr="paid"/>
+  </action-record>
+  
+  <action-record name="action-invoice-record-change-status-cancel" model="com.axelor.gst.app.Invoice">
+  	<field name="status" expr="cancelled"/>
+  </action-record>
+  
+  <action-validate name="action-invoice-validate-on-cancel-alert">
+  	<alert message="Continue to cancel."/>
+  </action-validate>
+  
+  <action-method name="action-invoice-method-set-gst-values-to-zero">
+  	<call class="com.axelor.gst.app.controller.InvoiceController" method="setGst" />
+  </action-method>
+  
+ <action-method name="action-invoice-method-set-contact">
+   <call class="com.axelor.gst.app.controller.InvoiceController" method="setContact"/>
+  </action-method>
+  
+  
+  <action-method name="action-invoice-method-set-reference">
+  	<call class="com.axelor.gst.app.controller.InvoiceController" method="setInvoiceReference" if="__self__.reference==null"/>
+  </action-method>
+
+  
+  <action-method name="action-invoice-method-set-net-amounts">
+  	<call class="com.axelor.gst.app.controller.InvoiceController" method="setAmounts"/>
+  </action-method>
+  
+  <action-method name="action-invoice-method-change-amounts-on-change">
+  	<call class="com.axelor.gst.app.controller.InvoiceController" method="setValuesOnChange"/>
+  </action-method>
+  
+  <action-group name="action-invoice-group-on-new-from">
+  	<action name="action-invoice-attr-set-default-value"/>
+  	<action name="action-invoice-method-set-values-from-product"  if="productId!=null"/>
+  </action-group>
+  
+  <action-group name="action-invoice-group-for-change-amounts">
+  	<action name="action-invoice-attr-check-null-values" />
+  	<action name="action-invoice-method-set-gst-values-to-zero"/>
+  	<action name="action-invoice-method-change-amounts-on-change"/>
+  	<action name="action-invoice-method-set-net-amounts"/>
+  </action-group>
+  
+  <action-report output="invoice-${date}${time}" name="action-invoice-report-print-invoice" design="dummyinvoice.rptdesign" format="pdf">
+  	<param name="companyId" expr="eval:company.id"/>
+  	<param name="invoiceId" expr="eval:id"/>
+  	<param name="partyId" expr="eval:party.id"/>
+  	<param name="addressId" expr="eval:invoiceAddress.id"/>
+  	<param name="logoUrl" expr="call:com.axelor.gst.app.controller.InvoiceController:getLogoUrl()"/>
+  </action-report>
+    
+ </object-views>
+ 
+ 
+ 
