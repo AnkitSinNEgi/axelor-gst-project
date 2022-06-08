@@ -34,7 +34,7 @@ public class ProductController {
 			for(Integer id:ids) {
 				
 				str+=Integer.toString(id);
-				System.out.println(id);
+				//System.out.println(id);
 				if(ids.indexOf(id)!=ids.size()-1) 
 					str+=",";
 			}

@@ -9,9 +9,9 @@
   	<string name="type" selection="select-address-type" required="true"/>
   	<string name="line1" required="true" namecolumn="true"/>
   	<string name="line2"/>
-  	<many-to-one ref="City" name="city" required="true"/>
-  	<many-to-one ref="State" name="state"/>
   	<many-to-one ref="Country" name="country" required="true"/>
+  	<many-to-one ref="State" name="state"/>
+  	<many-to-one ref="City" name="city" required="true"/>
   	<string name="pinCode"/>
   	<many-to-one ref="Party" name="party"/>
   </entity>

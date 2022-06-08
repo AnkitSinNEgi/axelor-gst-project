@@ -21,7 +21,7 @@
   		<field name="accountNo"/>
   		<field name="ifsc"/>
   		<field name="type"/>
-  		<field name="address" widget="text"/>
+  		<field name="address" widget="text" colSpan="12"/>
   	</panel>
   </form>
  

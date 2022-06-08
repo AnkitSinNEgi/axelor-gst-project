@@ -9,19 +9,20 @@
   
   <form model="com.axelor.gst.app.Company" title="Companies" name="company-form">
   	<panel title="Company Information">
-  		<field name="name"/>
-  		<field name="logo" widget="image"/>
-  		<field name="gstin"/>
-  		<field name="address" canNew="true"/>
+  		
+  		<field name="logo" widget="image" colspan="3" height="4"/>		
+  	 	<field name="name" colspan="3"/>
+    	<field name="gstin" colspan="3"/>  
+  		<field name="address" canNew="true" colspan="3"/> 
   	</panel>
   	
   	<panel>
   		<field name="contact" colSpan="12">
   			<editor>
-  				<field name="name"/>
+  				<field name="name" />
   				<field name="type"/>
-  				<field name="primaryPhone" widget="phone" x-preferred-countries="IN FR"/>
-  				<field name="secondaryPhone" widget="phone" x-preferred-countries="IN FR"/>
+  				<field name="primaryPhone" widget="phone" x-preferred-countries="IN"/>
+  				<field name="secondaryPhone" widget="phone" x-preferred-countries="IN"/>
   				<field name="primaryEmail" widget="email"/>
   				<field name="secondaryEmail" widget="email"/>
   			</editor>
@@ -29,15 +30,7 @@
   	</panel>
   	
   	<panel>
-  		<field name="bankDetails" colSpan="12">
-  			<editor>
-  				<field name="bank"/>
-  				<field name="accountNo"/>
-  				<field name="ifsc"/>
-  				<field name="type"/>
-  				<field name="address" widget="text"/>
-  			</editor>
-  		</field>
+  		<field name="bankDetails" colSpan="12"/>
   	</panel>
   </form>
   

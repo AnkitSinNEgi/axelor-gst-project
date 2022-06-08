@@ -9,10 +9,11 @@
   	<option value="cancelled">Cancelled</option>
   </selection>
   
+  
   <grid model="com.axelor.gst.app.Invoice" title="Invoices" name="invoice-grid">
   	<field name="status"/>
   	<field name="company"/>
-  	<field name="reference"/>
+  	<field name="reference" readonly="true"/>
   	<field name="invoiceDate"/>
   	<field name="priority"/>
   	<field name="party"/>
@@ -29,7 +30,7 @@
   </grid>
   
   <form model="com.axelor.gst.app.Invoice" title="Invoices" name="invoice-form" onNew="action-invoice-group-on-new-from,action-invoice-group-for-change-amounts" 
-  			 onSave="action-invoice-method-set-net-amounts">
+  			 onSave="action-invoice-method-set-net-amounts" onLoad="">
   
   	<toolbar>
   		<button onClick="action-invoice-report-print-invoice" name="printInvoice" icon="fa-print"/>
@@ -46,27 +47,29 @@
   						icon="fa-times" css="btn btn-danger" hideIf="status==&quot;cancelled&quot;"/>
   	</panel>
   	
-  	<panel title="Invoice">
+  	
+  	<panel title="Invoice" >
+  	
   		<field name="status" readonly="true" widget="NavSelect" colSpan="8"/>
   		<field name="company" onChange="action-invoice-group-for-change-amounts" required="true"/>
-  		<field name="reference"/>
-  		<field name="invoiceDate"/>
-  		<field name="priority"/>
+  		<field name="reference" readonly="true"/>
+  		<field name="invoiceDate" />
+  		<field name="priority" onChange="action-for-hiding-netSgst"/>
   		<field name="party" onChange="action-invoice-method-set-contact,action-invoice-group-for-change-amounts"/>
   		<field name="partyContact" domain="self.party=:party" onChange="action-invoice-method-change-amounts-on-change,action-invoice-method-set-net-amounts"/>
   		<field name="invoiceAddress" domain="self.party=:party" onChange="action-invoice-group-for-change-amounts"/>
-  		<field name="shippingAddress" domain="self.party=:party"/>
-  		<field name="useInvoiceAddressAsShipping" onChange="action-invoice-attr-check-value"/>
+  		<field name="shippingAddress" domain="self.party=:party" />
+  		<field name="useInvoiceAddressAsShipping" onChange="action-invoice-attr-check-value,action-for-hiding-netSgst"/>
   		<field name="netAmount" readonly="true"/>
-  		<field name="netIgst" readonly="true"/>
+  		<field name="netIgst" readonly="true" />
   		<field name="netCgst" readonly="true"/>
-  		<field name="netSgst" readonly="true"/>
+  		<field name="netSgst" readonly="true" />
   		<field name="grossAmount" readonly="true"/> 		
-  	</panel>
-  	<panel-related field="invoiceItem" onChange="action-invoice-method-set-net-amounts"/>
+  	</panel>  
+  	<panel-related field="invoiceItem" onChange="action-invoice-method-set-net-amounts"/>    
   </form>
   
-  <kanban columnBy="status" model="com.axelor.gst.app.Invoice" sequenceBy="priority" title="Invoices" name="invoice-kanban">
+   <kanban columnBy="status" model="com.axelor.gst.app.Invoice" sequenceBy="priority" title="Invoices" name="invoice-kanban">
   	<field name="company"/>
   	<field name="party"/>
   	<field name="invoiceDate"/>
@@ -102,9 +105,24 @@
   </action-attrs>
   
   <action-attrs name="action-invoice-attr-check-value">
-  	<attribute name="hidden" for="shippingAddress" expr="eval:__this__.invoiceAddress" if="useInvoiceAddressAsShipping"/>
-  	<attribute name="value" for="shippingAddress" expr="eval:__this__.invoiceAddress" if="useInvoiceAddressAsShipping"/>
+  	<attribute name="hidden" for="shippingAddress" expr="eval:__this__.useInvoiceAddressAsShipping"/>
+  	<attribute name="value" for="shippingAddress" expr="eval:__this__.invoiceAddress" if="useInvoiceAddressAsShipping"/>  
   </action-attrs>
+ 
+ 
+ 
+ 
+ <!--  <action-attrs name="action-invoice-attr-set-hide-netIgst">
+ 	<attribute for="netIgst" name="hidden" expr="!id" />
+ </action-attrs>
+  -->
+ <!-- 
+ <action-attrs name="action-for-hiding-netSgst">
+ <attribute name="hidden" for="netSgst" expr="invoiceAddress==shippingAddress"/>
+ 
+ </action-attrs>
+  
+   -->
   
   <action-record name="action-invoice-record-change-status-draft" model="com.axelor.gst.app.Invoice">
   	<field name="status" expr="draft"/>

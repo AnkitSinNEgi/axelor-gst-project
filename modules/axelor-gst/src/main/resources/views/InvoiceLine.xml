@@ -20,9 +20,9 @@
   	<panel>
   		<field name="product" onChange="action-invoice-line-method-set-code,action-invoice-line-record-set-product-details,action-invoice-line-group-set-values"/>
   		<field name="hsbn" readonly="true"/>
-  		<field name="item" readonly="true"/>
+  		<field name="item" required="true"/>
   		<field name="qty" onChange="action-invoice-line-group-set-values"/>
-  		<field name="price" readonly="true"/>
+  		<field name="price"/>
   		<field name="netAmount" readonly="true"/>
   		<field name="gstRate" readonly="true"/>
   		<field name="igst" readonly="true"/>

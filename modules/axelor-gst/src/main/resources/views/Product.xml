@@ -40,6 +40,7 @@
   		<field name="costPrice"/>
   		<field name="gstRate"/>
   		<field name="image"/>
+  	   
   		<template>
   			<![CDATA[
   				<div class="span4 card-image">
@@ -65,7 +66,7 @@
   	<field name="gstRate" expr="eval:category.gstRate"/>
   </action-record>
   
-  <action-report output="product-${date}${time}" name="action-product-report-print-product-details" design="productreport003.rptdesign" format="pdf">
+  <action-report output="product-${date}${time}" name="action-product-report-print-product-details" design="Practice002.rptdesign" format="pdf">
   	<param name="logoUrl" expr="call:com.axelor.gst.app.controller.InvoiceController:getLogoUrl()"/>
   	<param name="companyId" expr="eval:__repo__(Company).all().fetchOne().id"/>
   	<param name="productIds" expr="call:com.axelor.gst.app.controller.ProductController:getProductIds(_ids)"/>

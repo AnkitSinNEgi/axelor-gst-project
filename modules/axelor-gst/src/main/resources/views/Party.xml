@@ -7,6 +7,24 @@
   	<option value="company">Company</option>
   </selection>
   
+  <cards name="party-cards" model="com.axelor.gst.app.Party" title="Parties">
+  	<field name="reference"/>
+  	<field name="name"/>
+  	<field name="type"/>
+  	<field name="customer"/>
+  	<field name="supplier"/>
+  	<field name="gstin"/>
+  	
+  	<template>
+  		<![CDATA[
+  			<div style="text-align:center; color:blue">
+  				<h3><u>{{name}}</u></h3>
+  				Type: {{type}}<br>
+  				GSTIN: {{gstin}}
+  			</div>
+  		]]>
+  	</template>
+  </cards>
   <grid model="com.axelor.gst.app.Party" title="Parties" name="party-grid">
   	<field name="reference"/>
   	<field name="name"/>
@@ -51,30 +69,12 @@
   				<field name="state" domain="self.country=:country"/>
   				<field name="city" domain="self.state=:state"/>
   				<field name="pinCode"/>
-  				<field name="party"/>
+  			<!--  <field name="party"/> -->	
   			</editor>
   		</field>
   	</panel>
   </form>
   
-  <cards name="party-cards" model="com.axelor.gst.app.Party" title="Parties">
-  	<field name="reference"/>
-  	<field name="name"/>
-  	<field name="type"/>
-  	<field name="customer"/>
-  	<field name="supplier"/>
-  	<field name="gstin"/>
-  	
-  	<template>
-  		<![CDATA[
-  			<div style="text-align:center; color:blue">
-  				<h3><u>{{name}}</u></h3>
-  				Type: {{type}}<br>
-  				GSTIN: {{gstin}}
-  			</div>
-  		]]>
-  	</template>
-  </cards>
   
   <action-method name="action-party-method-set-reference">
   	<call class="com.axelor.gst.app.controller.PartyController" method="setPartyReference" if="__this__.reference==null"/>

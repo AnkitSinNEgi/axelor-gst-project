@@ -73,19 +73,7 @@
   		<field name="toDate" type="date" widget="required" x-required="true" title="To"/>
   	</search-fields>
   	<dataset type="sql">
-  <!-- 	<![CDATA[
-			select count(ai) as total,ap.name as pname,apc.name as cname
-  			from axelor_invoice ai 
-  			left join axelor_invoice_line ail 
-  				on ai.id=ail.invoice 
-  			left join axelor_product ap 
-  				on ap.id=ail.product 
-  			left join axelor_product_category apc 
-  				on apc.id=ap.category 
-  			where ai.status='paid' and date(ai.invoice_date) between date(:fromDate) and date(:toDate)
-  			group by apc.id,ap.id;
-  		]]>  -->	
-  		
+ 
   		<![CDATA[
 			select count(gsti) as total,gstp.name as pname,gstpc.name as cname
   			from gst_invoice gsti 

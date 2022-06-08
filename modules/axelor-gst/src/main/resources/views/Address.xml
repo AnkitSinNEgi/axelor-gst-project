@@ -25,9 +25,9 @@
   		<field name="type"/>
   		<field name="line1"/>
   		<field name="line2"/>
-  		<field name="city"/>
-  		<field name="state"/>
   		<field name="country"/>
+  		<field name="state" />
+  		<field name="city"/>
   		<field name="pinCode"/>
   		<field name="party"/>
   	</panel>

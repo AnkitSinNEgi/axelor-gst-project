@@ -12,7 +12,7 @@
   
   <form model="com.axelor.gst.app.Sequence" title="Sequences" name="sequence-form" >
   	<panel title="Sequences">
-  		<field name="prefix" onChange="action-method-set-next-number"/>
+  		<field name="prefix" onChange="action-method-set-next-number" required="true"/>
   		<field name="suffix" onChange="action-method-set-next-number"/>
   		<field name="padding" onChange="action-method-set-next-number"/>
   		<field name="nextNumber"/>

@@ -19,9 +19,10 @@
   <!-- FOR PARTY -->
  	 <menuitem title="Party" name="menu-party-all" parent="menu-party" action="party.all"/>
   		<action-view name="party.all" title="All Party" model="com.axelor.gst.app.Party">
+  		<view type="cards" name="party-cards"/>
   		<view type="grid" name="party-grid"/>
   		<view type="form" name="party-form"/>
-  		<view type="cards" name="party-cards"/>
+  		
   		</action-view>
   
   <!-- FOR PARTY/CONTACT -->
@@ -75,27 +76,8 @@
   			<view type="grid" name="product-category-grid"/>
   			<view type="form" name="product-category-form"/>
  		 </action-view>
- <!-- FOR COMPANY -->
- <menuitem title="Company" name="menu-company" icon="fa fa-building" icon-background="pink"/>
-  <!--  FOR COMPANY/COMPANY -->
-  		<menuitem title="Company" name="menu-company-all" parent="menu-company" action="company.all"/>
- 		 <action-view name="company.all" title="All Company" model="com.axelor.gst.app.Company">
- 		 	<view type="grid" name="company-grid"/>
- 		 	<view type="form" name="company-form"/>
- 		 </action-view>
-  <!--FOR COMPANY/BANK-ACCOUNT  -->
- 		 <menuitem title="Bank Account" name="menu-bank-account" parent="menu-company" action="bank.account.all"/>
- 		 <action-view name="bank.account.all" title="Bank Accounts" model="com.axelor.gst.app.BankAccount">
- 	     	<view type="grid" name="bank-account-grid"/>
-        	<view type="form" name="bank-account-form"/>
-		  </action-view>
-   <!--FOR COMPANY/SEQUENCE-->
-  		<menuitem title="Sequence" name="menu-sequence" parent="menu-company" action="sequence.all"/>
- 			 <action-view name="sequence.all" title="Sequences" model="com.axelor.gst.app.Sequence">
-  			<view type="grid" name="sequence-grid"/>
-  			<view type="form" name="sequence-form"/>
- 		 </action-view>
-   <!--FOR INVOICE  -->
+ 
+<!--FOR INVOICE  -->
         <menuitem title="Invoice" name="menu-invoice" icon="fa fa-pencil-square" icon-background="brown"/>
    <!--FOR INVOICE/CREATEINVOICE  -->
  		   <menuitem title="Create Invoice" name="menu-create-invoice" parent="menu-invoice" action="create.invoice"/>
@@ -148,6 +130,25 @@
   				<view type="form" name="invoice-form"/>
   				<view type="kanban" name="invoice-kanban"/>
   				</action-view>
-  
+<!-- FOR COMPANY -->
+ <menuitem title="Company" name="menu-company" icon="fa fa-building" icon-background="pink"/>
+  <!--  FOR COMPANY/COMPANY -->
+  		<menuitem title="Company" name="menu-company-all" parent="menu-company" action="company.all"/>
+ 		 <action-view name="company.all" title="All Company" model="com.axelor.gst.app.Company">
+ 		 	<view type="grid" name="company-grid"/>
+ 		 	<view type="form" name="company-form"/>
+ 		 </action-view>
+  <!--FOR COMPANY/BANK-ACCOUNT  -->
+ 		 <menuitem title="Bank Account" name="menu-bank-account" parent="menu-company" action="bank.account.all"/>
+ 		 <action-view name="bank.account.all" title="Bank Accounts" model="com.axelor.gst.app.BankAccount">
+ 	     	<view type="grid" name="bank-account-grid"/>
+        	<view type="form" name="bank-account-form"/>
+		  </action-view>
+   <!--FOR COMPANY/SEQUENCE-->
+  		<menuitem title="Sequence" name="menu-sequence" parent="menu-company" action="sequence.all"/>
+ 			 <action-view name="sequence.all" title="Sequences" model="com.axelor.gst.app.Sequence">
+  			<view type="grid" name="sequence-grid"/>
+  			<view type="form" name="sequence-form"/>
+ 		 </action-view>  
   
  </object-views>

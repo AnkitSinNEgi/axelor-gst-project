@@ -6,8 +6,9 @@
   <module package="com.axelor.gst.app" name="gst"/>
   
   <entity name="Invoice" cacheable="true">
+  	
   	<string name="status" selection="select-invoice-status" readonly="true" default="draft"/>
-  	<many-to-one ref="Company" name="company" />
+    <many-to-one ref="Company" name="company" />
   	<string name="reference" />
   	<datetime name="invoiceDate" />
   	<integer name="priority"/>
